@@ -1,0 +1,55 @@
+     <div class="section"></div>
+
+      <h5 class="indigo-text center-align">Login into your account</h5>
+      <h6 class="red-text center-align" *ngIf="loginalert">{{loginalerttext}}</h6>
+      <div class="section"></div>
+
+      <div class="container center-align" style="padding-bottom:100px">
+        <div class="row">
+          <div class="col s12 m8 offset-m2 l6 offset-l3">
+             <div class="z-depth-1 grey lighten-4 row left-align" style="padding: 22px">
+
+          <form class="col s12" #loginform="ngForm" (ngSubmit)="goLogin(loginform.value)">
+           
+            <div class='row'>
+              <div class='input-field col s12'>
+                <i class="material-icons prefix">account_circle</i>
+                <input class='validate' type='text' name='username' id='username' ngModel required/>
+                <label for='email'>Enter your username</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                          <i class="material-icons prefix">lock</i>
+
+                <input class='validate' type='password' name='password' id='password' ngModel required/>
+                <label for='password'>Enter your password</label>
+              </div>
+            </div>
+
+            <br />
+              <div class='row center-align'>
+                <button *ngIf="!loggingin" type='submit' name='btn_login' class='col s12 btn btn-large waves-effect'>Login </button>
+
+                <button *ngIf="loggingin" type='button'class='col s12 btn btn-large waves-effect'>
+                    <div class="preloader-wrapper small active center-align" style="margin-top:10px;">
+                       <div class="spinner-layer spinner-yellow-only">
+                              <div class="circle-clipper left">
+                              <div class="circle"></div>
+                            </div><div class="gap-patch">
+                              <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                              <div class="circle"></div>
+                            </div>
+                          </div>
+                        </div>
+                </button>
+              </div>
+          </form>
+        </div>
+      </div>
+      </div>
+      </div>
+
+

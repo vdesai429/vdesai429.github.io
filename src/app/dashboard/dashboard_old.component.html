@@ -1,0 +1,67 @@
+<div class="row" *ngIf="dashdata">
+  <div class='col s12 m12 l10 offset-l1'>
+<table class="table highlight" >
+		<thead>
+			<tr role="row">
+				<th>Date</th>
+				<th>Accession Number</th>
+				<th>Snippet</th>
+				<th>Tools</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let row of dashdata">
+				<td>{{row.studydate}}</td>
+				<td class="accessionnum">{{row.accession}}</td>
+				<td *ngIf="row['trials']"> 
+					<div *ngFor="let subitem of row['trials'] | dashboard">{{subitem.result}} with {{subitem.consistency}}</div>
+				
+				</td>
+				<td *ngIf="!row['trials']"><span style="font-style:italic">In Progress</span></td>
+				<td class="btngroup">
+						<button *ngIf="row['trials']" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="Download PDF" (click)="downloademail(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-download"></i></button> 
+						<button *ngIf="!row['trials']" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="Download PDF" disabled><i aria-hidden="true" class="fa fa-fw fa-download"></i></button> 
+	
+						<button *ngIf="row['trials']" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="View Report" (click)="viewreport(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-file"></i></button> 
+						<button *ngIf="!row['trials']" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="View Report" disabled><i aria-hidden="true" class="fa fa-fw fa-file"></i></button> 
+
+
+						<button class="btn" materialize="tooltip" data-value="{{row.accession}}" data-tooltip="Edit" (click)="editproj(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-pencil-square-o"></i></button>
+						<button class="btn" materialize="tooltip" data-value="{{row.accession}}" data-tooltip="Delete" (click)="deleteproj(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-trash-o"></i></button></td>
+			</tr>
+			
+		</tbody>
+	</table>
+  </div>
+  </div>
+
+<!--Preloader-->
+<div class="row" style="padding-top:100px;padding-bottom:100px;" *ngIf="!dashdata">
+	<div class="col s12 center-align">
+   <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+	</div>
+</div>
+</div>
+
+<!--Delete Confirm Modal -->
+<div id="deletemodal" class="modal" materialize="modal" [materializeParams]="[{dismissible: false, opacity: 0.6}]" [materializeActions]="modalActions">
+    <form>
+    <div class="modal-content">
+		  <h5 class="center-align">Are you sure you want to delete #{{accessionForDelete}}?</h5>
+        
+    </div>
+    <div class="modal-footer">
+	  <button (click)="deleteSubmit()" class="modal-action modal-close waves-effect waves btn red darken-4" type="button">Delete</button>
+      <button (click)="closeModal()" type="button" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+    </div>
+     </form>
+  </div>

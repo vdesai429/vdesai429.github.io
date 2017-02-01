@@ -1,0 +1,18 @@
+        <ul materialize="collapsible" class="collapsible" data-collapsible="accordion" [materializeParams]="params">
+          <li *ngFor="let value of values">
+            <div class="collapsible-header" [ngClass]="value.tabactive"><i class="material-icons">label_outline</i>{{value.tab}}</div>
+            <div class="collapsible-body">
+                <div class="row" style="margin-top:20px">
+                  <div class="col s6 l4" *ngFor="let component of value?.tabdata">
+                    <h6>{{component.title}}</h6>
+                    <form id="component.title">
+                        <div *ngFor="let option of component.options">
+                       <input name="{{component.title}}" type="radio" id="{{component.title}}_{{option}}" />
+                       <label for="{{component.title}}_{{option}}">{{option}}</label>
+                       </div>
+                      </form>
+                  </div>
+                </div>
+              </div>
+          </li>
+        </ul>

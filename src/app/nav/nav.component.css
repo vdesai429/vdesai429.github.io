@@ -1,0 +1,10 @@
+nav, .nav-wrapper {
+    height: 48px;
+    line-height: 48px;
+}
+
+nav .nav-wrapper i {
+    height: 48px;
+    line-height: 48px;
+}
+

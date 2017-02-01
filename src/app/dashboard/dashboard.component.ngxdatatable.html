@@ -1,0 +1,87 @@
+<div class="row" *ngIf="dashdata" style="padding-bottom:100px" id="dashboardtable">
+
+  
+
+  <div class='col s12 l10 offset-l1'>
+		<div class="row">
+   <div class="col s12 m6 offset-m6 l3 offset-l9">
+        <input
+        type='text'
+        
+        placeholder='Filter projects...'
+        (keyup)='updateFilter($event)'
+      />
+     </div>
+     </div>  
+ <ngx-datatable
+        class="material fullscreen"
+        [columnMode]="'flex'"
+        [headerHeight]="50"
+				[sortType]="'multi'"
+        [footerHeight]="50"
+        [rowHeight]="auto"
+        [limit]="10"
+				[rows]="dashdata"
+				[scrollbarH]="false"
+				[offset]="offset"
+        >
+			        <ngx-datatable-column prop="studydate" name="Date of Study" [flexGrow]="1">
+          <template let-row="row" let-value="value" ngx-datatable-cell-template>
+						<span>{{value}}</span>
+          </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="accession" [flexGrow]="1">
+          <template let-row="row" let-value="value" ngx-datatable-cell-template>
+						<span>{{value}}</span>
+          </template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="trials" name="Snippet" [flexGrow]="2">
+					 <template let-row="row" let-value="value" ngx-datatable-cell-template>
+						  <div *ngIf="!value"><i>In Progress</i></div>
+						 <div *ngIf="value"><div *ngFor="let subitem of value | dashboard">{{subitem.result}} with {{subitem.consistency}}</div></div>
+          </template>
+        </ngx-datatable-column>
+				 <ngx-datatable-column prop="trials" name="Tools" [flexGrow]="2">
+					 <template let-row="row" let-value="value" ngx-datatable-cell-template>
+						<div class="row">
+								<div class="col s12 m5 l3">
+						<button *ngIf="value" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="Download PDF" (click)="downloademail(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-download"></i></button> 
+						<button *ngIf="!value" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="Download PDF" disabled><i aria-hidden="true" class="fa fa-fw fa-download"></i></button> 
+								</div>
+								<div class="col s12 m5 l3">
+						<button *ngIf="value" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="View Report" (click)="viewreport(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-file"></i></button> 
+						<button *ngIf="!value" materialize="tooltip" class="btn" data-value="{{row.accession}}" data-tooltip="View Report" disabled><i aria-hidden="true" class="fa fa-fw fa-file"></i></button> 
+								</div>
+								
+						
+								<div class="col s12 m5 l3">
+						<button class="btn" materialize="tooltip" data-value="{{row.accession}}" data-tooltip="Edit" (click)="editproj(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-pencil-square-o"></i></button>
+							</div>
+							<div class="col s12 m5 l3">
+						<button class="btn" materialize="tooltip" data-value="{{row.accession}}" data-tooltip="Delete" (click)="deleteproj(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-trash-o"></i></button>
+							</div>
+							</div>
+					
+						
+          </template>
+        </ngx-datatable-column>
+
+ </ngx-datatable>
+
+
+</div>
+</div>
+
+<!--Delete Confirm Modal -->
+<div id="deletemodal" class="modal" materialize="modal" [materializeParams]="[{dismissible: false, opacity: 0.6}]" [materializeActions]="modalActions">
+    <form>
+    <div class="modal-content">
+		  <h5 class="center-align">Are you sure you want to delete #{{accessionForDelete}}?</h5>
+        
+    </div>
+    <div class="modal-footer">
+	  <button (click)="deleteSubmit()" class="modal-action modal-close waves-effect waves btn red darken-4" type="button">Delete</button>
+      <button (click)="closeModal()" type="button" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+    </div>
+     </form>
+  </div>

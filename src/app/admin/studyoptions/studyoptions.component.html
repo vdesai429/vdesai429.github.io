@@ -1,0 +1,66 @@
+ <div class="card-content">
+
+  <div class="row">
+    <div class="col s12 l6" *ngFor="let table of data; let i=index" style="margin-bottom:20px">
+   <p-dataTable [value]="table['options']" [rows]="5" [paginator]="true" [tableStyle]="{'min-height':'400px'}" [editable]="true">
+    <p-column [editable]="true">
+       <template pTemplate="header">
+          {{table.component}}
+        </template>
+         <template let-option="rowData" pTemplate="body">
+            <span>{{option.value}}</span>
+        </template>        
+    </p-column>
+    <p-column header="Tools">
+        <template let-option="rowData" let-position="rowIndex" pTemplate="body">
+        <button class="btn" materialize="tooltip" data-tooltip="Edit" (click)="editoption(i, option.value)"><i aria-hidden="true" class="fa fa-fw fa-pencil-square-o"></i></button>
+				<button class="btn" materialize="tooltip" data-tooltip="Delete" (click)="deleteoption(i, option.value)"><i aria-hidden="true" class="fa fa-fw fa-trash-o"></i></button>
+        	<button *ngIf="position==0" class="btn" materialize="tooltip" data-tooltip="Move Up" (click)="swapArrayposition('up',i,option.value)" disabled><i aria-hidden="true" class="fa fa-fw fa-arrow-up"></i></button>
+          	<button *ngIf="position>0" class="btn" materialize="tooltip" data-tooltip="Move Up" (click)="swapArrayposition('up',i,option.value)"><i aria-hidden="true" class="fa fa-fw fa-arrow-up"></i></button>
+          	<button *ngIf="position+1==table['options'].length" class="btn" materialize="tooltip" data-tooltip="Move Down" (click)="swapArrayposition('down',i,option.value)" disabled><i aria-hidden="true" class="fa fa-fw fa-arrow-down"></i></button>
+            <button  *ngIf="position+1<table['options'].length" class="btn" materialize="tooltip" data-tooltip="Move Down" (click)="swapArrayposition('down',i,option.value)"><i aria-hidden="true" class="fa fa-fw fa-arrow-down"></i></button>
+        </template>
+    </p-column>
+</p-dataTable>
+  <a class="btn-floating btn-large waves-effect waves-light grey right" (click)="addoption(i)" style="margin-top:-40px;margin-right:-5px"><i class="material-icons">add</i></a>
+
+    </div>
+    
+  </div>
+ </div>
+
+
+ <!--Multipurpose Modal-->
+ <div id="multimodal" class="modal" materialize="modal" [materializeParams]="[{dismissible: false, opacity: 0.6}]" [materializeActions]="modalActions">
+    <form #form="ngForm">
+    <div class="modal-content" style="padding-top:60px">
+      <div *ngIf="activeoption=='edit'|| activeoption=='add' || activeoption=='delete'">
+        <div  *ngIf="activeoption=='edit'" class="row" style="padding-top:20px">
+          <div class="input-field col s12 m8 offset-m2 l6 offset-l3">
+          <i class="fa fa-fw fa-pencil-square-o prefix"></i>
+          <input id="icon_prefix" name="option" type="text" class="center-align" [value]="editoptionval" style="font-size:1.2em" ngModel>
+          <label for="icon_prefix" [ngClass]="editfilled" style="font-size:1.2em"></label>
+          </div>
+        </div>
+        <div  *ngIf="activeoption=='add'" class="row">
+         <div class="input-field col s12 m8 offset-m2 l6 offset-l3">
+          <i class="material-icons prefix">add</i>
+          <input id="icon_prefix" name="option" type="text" class="center-align" style="font-size:1.2em" ngModel>
+          <label for="icon_prefix" style="font-size:1.2em">Enter new option</label>
+        </div> 
+        </div>
+         <div  *ngIf="activeoption=='delete'" class="row" style="padding-top:20px">
+           <h5 class="center-align">Are you sure you want to delete {{optionForDelete}}?</h5>
+         
+        </div>
+         </div>
+        
+    </div>
+    <div class="modal-footer">
+	  <button *ngIf="activeoption=='delete'" (click)="deleteSubmit(activetable,optionForDelete);" class="modal-action modal-close waves-effect waves btn red darken-4" type="button">Delete</button>
+    <button *ngIf="activeoption=='edit'" (click)="submitForm(activeoption, activetable, form.value)" class="modal-action modal-close waves-effect waves btn" type="button">Submit</button>
+    <button *ngIf="activeoption=='add'" (click)="submitForm(activeoption, activetable, form.value)" class="modal-action modal-close waves-effect waves btn" type="button">Submit</button>
+      <button (click)="closeModal()" type="button" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+    </div>
+     </form>
+  </div>

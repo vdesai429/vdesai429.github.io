@@ -1,0 +1,65 @@
+<form #f="ngForm">
+
+<div class="row">
+  <h5 style="margin-top:-40px;margin-left:15px;" class="center-align"><div><span (click)='trialprev($event)' class='trialarrow' style="margin-right:10px" *ngIf="prevarrow_showhide"><i class='fa fa-arrow-left'></i></span><span>Trial #{{currenttrial}}</span><span (click)='nexttrial($event)' class='trialarrow' *ngIf="nextarrow_showhide" style="margin-left:10px"><i class='fa fa-arrow-right'></i></span></div></h5>
+  </div>
+  <div class="row">
+  <div class="col l6 s12">
+<div class="card">
+  <div class="card-content">
+    <div class="row">
+      <h6 class="center-align" style="color:gray">Consistency</h6>
+      </div>
+      <div class="row center-align">
+  <label *ngFor="let button of buttons; let i=index" class="btn btn-xl" [ngClass]="{'': consistency == button.value,'btn-flat2': consistency !== button.value}" for='{{button.value}}' (click)="selectbtn(i)">{{button.value}}<input type="radio" [(ngModel)]="consistencybutton" name="{{button.value}}" [value]="button.value" id="{{button.value}}" (click)="consistency = button.value"></label>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="col l6 s12">
+<div class="card">
+  <div class="card-content">
+    <div class="row">
+      <h6 class="center-align" style="color:gray">Result</h6>
+      </div>
+      <div class="row center-align">
+
+  <label *ngFor="let button of resultoptions; let i=index" class="btn btn-xl" [ngClass]="{'': result == button.value,'btn-flat2': result !== button.value}" for='{{button.value}}' (click)="selectresult(i)">{{button.value}}<input type="radio" [(ngModel)]="resultbutton" name="consist" value="{{button.value}}" id="{{button.value}}" (click)="result = button.value"></label>
+
+</div>
+</div>
+
+</div></div>
+  </div>
+
+<div class="row">
+<div class="col l6 s12">
+<div class="card">
+  <div class="card-content">
+    <div class="row">
+      <h6 class="center-align" style="color:gray">Modifiers</h6>
+      </div>
+      <div class="row center-align">
+<span *ngFor="let button of modoptions; let i=index" style="margin-right:20px">
+ <input #mod_{{button.value}} [checked]='mods[button.value]' type="checkbox" name="{{button.value}}" value="{{button.value}}" id="{{button.value}}" (change)="selectmod(i, $event)"><label style="margin-top:20px;font-size:1.2em;"  for='{{button.value}}'>{{button.value}}</label>
+</span>
+</div>
+</div>
+
+</div>
+</div>
+
+         
+              <div class='col l6 s12 center-align'>
+                         <div *ngIf="addbutton" class="btn btn-large grey darken-2" style="margin-top:80px" (click)="addtrial()"><i style="margin-right: 5px" class="fa fa-plus"></i> Add Trial</div>
+                        <div *ngIf="!addbutton" class="btn btn-large grey darken-2" style="margin-top:80px" (click)="nexttrial()">Next Trial <i style="margin-left: 5px" class="fa fa-arrow-right"></i></div>
+
+                        <div class="btn btn-large teal" style="margin-top:80px" (click)="donebutton()">Done</div>
+
+            </div>
+            </div>
+
+</form>

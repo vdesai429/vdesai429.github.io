@@ -1,0 +1,23 @@
+.tabs .tab.disabled a, .tabs .tab.disabled a:hover {
+    color: gray;
+}
+
+
+
+.tabcontent {
+    margin-top: 80px;
+}
+
+
+
+@media (min-width:996px) {
+    .tab a {
+font-size:1.2em;
+}
+}
+
+@media (max-width: 768px) {
+    .tab a {
+        font-size: 0.8em;
+    }
+}

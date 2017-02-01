@@ -1,0 +1,55 @@
+<div class="row" *ngIf="dashdata" style="padding-bottom:100px" id="dashboardtable">
+
+  
+
+  <div class='col s12 l10 offset-l1'>
+		<div class="row">
+   <div class="col s12 m6 offset-m6 l3 offset-l9">
+        <input
+        type='text'
+        #gb
+        placeholder='Filter projects...'
+        
+      />
+     </div>
+     </div>  
+ <p-dataTable [value]="dashdata" [responsive]="true" [rows]="10" [paginator]="true" [globalFilter]="gb">
+    <p-column field="studydate" header="Date of Study" [sortable]="true"></p-column>
+    <p-column field="accession" header="Accession" [sortable]="true"></p-column>
+     <p-column field="trials" header="Snippet">
+        <template let-trial="rowData['trials']" pTemplate="body">
+             <span *ngIf="!trial"><i>In Progress</i></span>
+             <ul *ngIf="trial" style="display:inline-grid"><li *ngFor="let subitem of trial | dashboard">{{subitem.result}} with {{subitem.consistency}}</li></ul>
+        </template>
+    </p-column>
+    <p-column field="trials" header="Tools" [style]="{'width':toolscol}">
+        <template let-row="rowData" let-trial="rowData['trials']" pTemplate="body">
+            	<button *ngIf="trial" materialize="tooltip" class="btn"  data-tooltip="Download PDF" (click)="downloademail(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-download"></i></button> 
+				<button *ngIf="!trial" materialize="tooltip" class="btn"  data-tooltip="Download PDF" disabled><i aria-hidden="true" class="fa fa-fw fa-download"></i></button> 
+				
+                <button *ngIf="trial" materialize="tooltip" class="btn"  data-tooltip="View Report" (click)="viewreport(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-file"></i></button> 
+				<button *ngIf="!trial" materialize="tooltip" class="btn" data-tooltip="View Report" disabled><i aria-hidden="true" class="fa fa-fw fa-file"></i></button> 
+				
+                <button class="btn" materialize="tooltip" data-tooltip="Edit" (click)="editproj(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-pencil-square-o"></i></button>
+				<button class="btn" materialize="tooltip" data-tooltip="Delete" (click)="deleteproj(row.accession)"><i aria-hidden="true" class="fa fa-fw fa-trash-o"></i></button>
+
+        </template>
+    </p-column>
+</p-dataTable>
+
+</div>
+</div>
+
+<!--Delete Confirm Modal -->
+<div id="deletemodal" class="modal" materialize="modal" [materializeParams]="[{dismissible: false, opacity: 0.6}]" [materializeActions]="modalActions">
+    <form>
+    <div class="modal-content">
+		  <h5 class="center-align">Are you sure you want to delete #{{accessionForDelete}}?</h5>
+        
+    </div>
+    <div class="modal-footer">
+	  <button (click)="deleteSubmit()" class="modal-action modal-close waves-effect waves btn red darken-4" type="button">Delete</button>
+      <button (click)="closeModal()" type="button" class="modal-action modal-close waves-effect waves-green btn-flat">Cancel</button>
+    </div>
+     </form>
+  </div>
